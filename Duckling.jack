@@ -1,0 +1,86 @@
+/** Implements a duckling 
+    A duckling has top-left x and y coordinates, and a size*/
+
+class Duckling {
+
+    field int x, y; // screen location of the top-left of big duck
+    field int size; // length of this duck, in pixels
+    field Duckling prev;
+
+    /**Constructs and draws a new Duck with location and size */
+    constructor Duckling new(int ax, int ay, int blockSize) {
+        let x = ax;
+        let y = ay;
+        let prev = null;
+        let size = blockSize;
+        do draw();
+        return this;
+    }  
+
+    /** Draws the duckling in (x,y) location */
+    method void draw() {
+        var int memAddress;
+        var int location;
+
+        let location = (y*32) + (x/16);
+
+        let memAddress = 16384+location;
+        do Memory.poke(memAddress+0, 480);
+        do Memory.poke(memAddress+32, 528);
+        do Memory.poke(memAddress+64, 1032);
+        do Memory.poke(memAddress+96, 1160);
+        do Memory.poke(memAddress+128, -14968);
+        do Memory.poke(memAddress+160, -19426);
+        do Memory.poke(memAddress+192, -25567);
+        do Memory.poke(memAddress+224, -32738);
+        do Memory.poke(memAddress+256, -32752);
+        do Memory.poke(memAddress+288, -32720);
+        do Memory.poke(memAddress+320, 24608);
+        do Memory.poke(memAddress+352, 12352);
+        do Memory.poke(memAddress+384, 8064);
+        do Memory.poke(memAddress+416, 4352);
+        do Memory.poke(memAddress+448, 4352);
+        do Memory.poke(memAddress+480, 10880);
+        return;
+}
+
+    method void erase() {
+        // Draw duck with white (using square for now)
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x, y, x + size, y + size);
+        return;
+    }
+
+    method void setPosition(int ax, int ay) {    
+        let x = ax;
+        let y = ay;
+        do erase();
+        do draw();
+        return;
+    }
+
+    method int getx() {
+        return x;
+    }
+
+    method int gety () {
+        return y;
+    }
+
+    method void setPrevious(Duckling duckling) {
+        let prev = duckling;
+        return;
+    }
+
+    method Duckling getPrevious() {
+        return prev;
+    }
+
+    /** Disposes the duckling */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    } 
+
+   
+} 

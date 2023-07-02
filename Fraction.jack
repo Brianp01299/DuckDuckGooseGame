@@ -1,0 +1,86 @@
+
+/**
+ * A library of which implements the abstraction of fractions
+ */
+class Fraction {
+
+    field int numerator.1;
+    field int denominator;
+
+    /** Initializes the library. */
+    constructor Fraction new(int n, int d) {
+        let numerator.1 = n;
+        let denominator = d;
+        return this;
+    }
+
+    /** Returns the integer numerator **/
+    method int getNumerator() {
+        return numerator.1;
+    }
+
+    /** Returns the integer denominator **/
+    method int getDenominator() {
+        return denominator;
+    }
+
+    /** Returns the sum of two fractions (not simpified). */
+    method Fraction add(Fraction that) {
+        var Fraction newFraction;
+        var int num, den;
+        let num = getNumerator() * that.getDenominator();
+        let num = num + (that.getNumerator() * getDenominator());
+        let den = getDenominator() * that.getDenominator();
+        let newFraction = Fraction.new(num,den);
+        return newFraction;
+    }
+
+    /** Returns the difference of two fractions (not simpified, this-that). */
+    method Fraction subtract(Fraction that) {
+        var Fraction newFraction;
+        var int num, den;
+        let num = getNumerator() * that.getDenominator();
+        let num = num - (that.getNumerator() * getDenominator());
+        let den = getDenominator() * that.getDenominator();
+        let newFraction = Fraction.new(num,den);
+        return newFraction;
+    }
+
+
+     /** Returns the product of two fractions (not simpified). */
+    method Fraction multiply(Fraction that) {
+        var Fraction newFraction;
+        var int num, den;
+        let num = getNumerator() * that.getNumerator();
+        let den = getDenominator() * that.getDenominator();
+        let newFraction = Fraction.new(num,den);
+        return newFraction;
+    }
+
+      /** Returns the quotient of two fractions (not simpified, this/that). */
+    method Fraction divide(Fraction that) {
+        var Fraction newFraction;
+        var int num, den;
+        let num = getNumerator() * that.getDenominator();
+        let den = getDenominator() * that.getNumerator();
+        let newFraction = Fraction.new(num,den);
+        return newFraction;
+    }
+
+    /** Prints a string representation of a fraction a / b **/
+    method void print() {
+       do Output.printInt(numerator);
+       do Output.printChar(32);
+       do Output.printChar(47);
+       do Output.printChar(32);
+       do Output.printInt(denominator);
+       return;
+    }
+
+// dispose of object properly
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+}

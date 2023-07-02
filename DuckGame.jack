@@ -1,0 +1,165 @@
+/**
+ * Implements the Snake game.
+ * This game allows the user to move a big goose around
+ * the screen, trying to collect new ducklings. Once collected,
+ * the smaller ducklings follow the big duckling around.
+ * When the game starts, a duck of 16 by 16 pixels is shown 
+ * in the middle of the screen. If the big duck runs into the edge of the
+ * screen or into any ducklngs, the game is over.
+ * The 4 arrow keys are used to move the goose up, down, left, and right.
+ * The 'q' key is used to quit the game.
+ */
+
+class DuckGame {
+    field Duck duck; // the duck of this game
+    field int direction; // the duck's current direction: 
+                        // 0=none, 1=up, 2=down, 3=left, 4=right
+    field List duckList; // congaLine of duckList
+    field Duckling d1; // the duckling getting picked up
+    field int i; //  x coordinatae of spawning duckling
+    field int j; // y coordinate of spawning duckiling
+    field int negative; // whether to go left or right for new duckling
+    field int score;
+
+    static int blockSize;
+
+    /** Constructs a new duck dance game. */
+    constructor DuckGame new() {
+       let score = 0;
+
+        let blockSize = 16; // 256 and 512 are both divisible by 16
+
+        // The initial duck is located in (100,100), has size blockSize, and is not moving.
+        let duck = Duck.new(blockSize*10, blockSize*10, blockSize);
+
+        // place ducklings randomly about for now
+
+        let d1 = Duckling.new(blockSize*5,blockSize*5,blockSize);
+        let duckList = List.new();
+
+        do Screen.setColor(true);
+        do Screen.drawLine(17, 40,  480, 40);
+        do Screen.drawLine(17, 220,  480, 220);
+        do Screen.drawLine(17, 40,  17, 220);
+        do Screen.drawLine(480, 40,  480, 220);
+
+        let direction = 0;
+        return this;
+    }
+
+    /** Disposes this game. */
+    method void dispose() {
+        do duck.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Moves the duck in the current direction. */
+    method void update() {
+        var Duckling current;
+        var Duckling prev;
+
+        var int duckx;
+        var int ducky;
+        var int ducklingx;
+        var int ducklingy;
+
+        let duckx = duck.getx();
+        let ducky = duck.gety();
+        let ducklingx = d1.getx();
+        let ducklingy = d1.gety();
+
+        let prev = null;
+        if (duckx = ducklingx & ducky = ducklingy){
+            do duckList.append(d1);
+            let score = score + 1;
+            do Output.printInt(score);
+            
+            
+            if (i>5) {
+                let i = 1;
+                let j = 1;
+            }
+            let d1 = Duckling.new(256 + (i*negative*blockSize), 128 + (i*negative*blockSize),blockSize);
+            let negative = negative*(-1);
+            let i = i + 1;
+
+        }
+       
+        
+        let current = duckList.getLast();
+       
+        if (~(current=null)){ 
+            do current.erase();
+            let prev = current.getPrevious();
+            while(~(prev=null)) {
+                let ducklingx = prev.getx();
+                let ducklingy = prev.gety();
+                do current.setPosition(ducklingx, ducklingy);
+                let current = prev;
+                let prev = current.getPrevious();
+            }
+
+        do current.setPosition(duckx,ducky);
+        }
+        else {
+            do duck.erase();
+        }
+
+        /* move main duck */
+        do duck.moveDuck(direction);
+
+        do Sys.wait(100);  // delays the next movement
+
+        return;
+    }
+
+    
+    /** Runs the game: handles the user's inputs and moves the duck accordingly */
+    method void run() {
+        var char key;  // the key currently pressed by the user
+        var boolean exit;
+        let exit = false;
+        let i = 1; 
+        let j = 1;
+        let negative = 1;
+        
+        while (~exit) {
+            // waits for a key to be pressed
+            while (key = 0) {
+                // don't ask why these numbers work it was trial and error for bounds checking
+                // do to input delay these may feel extra tight
+                // bounds checking
+                if (duck.getx()>(463) | duck.getx()<17 | duck.gety()>204 | duck.gety()<40) {
+                    
+                    let exit = true;
+                    let key = 81;
+                }
+                else {
+                    let key = Keyboard.keyPressed();
+                    do update();
+                }
+            }
+            if (key = 81)  { let exit = true; }     // q key
+            if (key = 131) { let direction = 1; }   // up arrow
+            if (key = 133) { let direction = 2; }   // down arrow
+            if (key = 130) { let direction = 3; }   // left arrow
+            if (key = 132) { let direction = 4; }   // right arrow
+
+            // waits for the key to be released
+            while (~(key = 0)) {
+                // bounds checking
+                if (duck.getx()>(463) | duck.getx()<17 | duck.gety()>204 | duck.gety()<40) {
+                    let exit = true;
+                    let key =0;
+                }
+                else {
+                    let key = Keyboard.keyPressed();
+                    do update();
+                }
+            }
+        } 
+        return;
+    }
+}
+

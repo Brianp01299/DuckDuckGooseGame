@@ -1,0 +1,46 @@
+/** Represents a linked list of integers. */
+class Node {
+    field Duck duck;     // either Duck or Duckling
+    field Duckling duckling; 
+    field Node next;         // followed by the other animals behind
+
+    /* Creates a Node. */
+    constructor Node new(Duck duckx, Duckling ducklingx, Node nextx) {
+        let duck = duckx;  
+        let duckling = ducklingx;
+        let next = nextx;     
+        return this;
+    }
+
+    /** Accessors. */
+    method Duck getDuck() { return duck;}
+    method Duckling getDuckling() {return duckling;}
+        
+    method Node getNext() { return next; }
+
+    /** Links the next node */
+    method void setNext(Node node) {
+        let next = node;
+        return;
+    }
+
+    /** Disposes this List. */
+    // By recursively disposing its tail.
+    method void dispose() {
+        if (~(duck=null)){
+            do duck.dispose();
+        }
+        if (~(duckling=null)){
+            do duckling.dispose();
+        }
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    // More list processing methods can come here.
+    method void append(Duckling duckling) {
+        let next = duckling;
+        return;
+    }
+
+}

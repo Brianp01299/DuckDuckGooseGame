@@ -1,0 +1,14 @@
+/** Initializes a new Snake game and starts running it. */
+class Main {
+    function void main() {
+        var Fraction f1,f2,f3;
+         var int i;
+        let f1 = Fraction.new(3,-4);
+        let f2 = Fraction.new(4,3);
+       let i =3;
+        let f3 = MathTest.abs(f1);
+        do f3.print();
+        do f1.dispose();
+        return;
+    }
+}

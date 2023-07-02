@@ -1,0 +1,34 @@
+/** Represents a linked list of integers. */
+class List {
+    field Duckling last;       // either Duck or Duckling
+
+    /* Creates a List. */
+    constructor List new() {
+        let last = null;      // the identifiers car and cdr are used in 
+        return this;
+    }
+
+    // Attach a node to th end of the list
+    method void append(Duckling duckling) {
+        do duckling.setPrevious(last);
+        let last = duckling;
+        return;
+    }
+
+    /** Disposes this List. */
+    // By recursively disposing its tail.
+    method void dispose() {
+        var Node current;
+        let current = last;
+        if (~(current = null)) {
+            do current.dispose();
+            let current = current.getNext();
+        }
+        // Calls an OS routine to free the memory of this object.
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method Duckling getLast() {return last;}
+
+}

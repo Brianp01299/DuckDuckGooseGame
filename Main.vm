@@ -1,0 +1,23 @@
+function Main.main 4
+push constant 3
+push constant 4
+neg
+call Fraction.new 2
+pop local 0
+push constant 4
+push constant 3
+call Fraction.new 2
+pop local 1
+push constant 3
+pop local 3
+push local 0
+call MathTest.abs 1
+pop local 2
+push local 2
+call Fraction.print 1
+pop temp 0
+push local 0
+call Fraction.dispose 1
+pop temp 0
+push constant 0
+return

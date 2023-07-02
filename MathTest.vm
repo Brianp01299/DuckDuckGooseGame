@@ -1,0 +1,59 @@
+function MathTest.init 0
+push constant 0
+return
+function MathTest.abs 3
+push argument 0
+call Fraction.getNumerator 1
+pop local 0
+push argument 0
+call Fraction.getDenominator 1
+pop local 1
+push local 0
+push constant 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 0
+neg
+pop local 0
+label IF_FALSE0
+push local 1
+push constant 0
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 1
+neg
+pop local 1
+label IF_FALSE1
+push local 0
+push local 1
+call Fraction.new 2
+pop local 2
+push local 2
+return
+function MathTest.multiplyFI 1
+push argument 1
+push constant 1
+call Fraction.new 2
+pop local 0
+push argument 0
+push local 0
+call Fraction.multiply 2
+return
+function MathTest.multiplyIF 1
+push argument 0
+push constant 1
+call Fraction.new 2
+pop local 0
+push argument 1
+push local 0
+call Fraction.multiply 2
+return
+function MathTest.multiplyFF 0
+push argument 0
+push argument 1
+call Fraction.multiply 2
+return

@@ -1,0 +1,64 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Math.jack
+
+/**
+ * A library of commonly used mathematical functions.
+ * Note: Jack compilers implement multiplication and division using OS method calls.
+ */
+class MathTest {
+
+    /** Rest of Math OS Library */
+
+    /** Initializes the library. */
+    function void init() {
+        return;
+    }
+
+    /** Returns the absolute value of x. */
+    function Fraction abs(Fraction x) {
+        var int num, den;
+        var Fraction newFraction;
+
+        let num = x.getNumerator();
+        let den = x.getDenominator();
+        if (num < 0) {
+            let num = -num;
+        }
+        if (den < 0) {
+            let den = -den;
+        }
+        let newFraction = Fraction.new(num,den);
+        return newFraction;
+      
+    }
+
+   
+
+    /** Returns the product of x and y. 
+     *  When a Jack compiler detects the multiplication operator '*' in the 
+     *  program's code, it handles it by invoking this method. In other words,
+     *  the Jack expressions x*y and multiply(x,y) return the same value.
+     */
+    function Fraction multiplyFI(Fraction x, int y) {
+        var Fraction newFraction;
+        let newFraction = Fraction.new(y,1);
+        return x.multiply(newFraction);
+     
+        
+    }
+
+    function Fraction multiplyIF(int x, Fraction y) {
+        var Fraction newFraction;
+        let newFraction = Fraction.new(x,1);
+        return y.multiply(newFraction);       
+        
+    }
+
+    function Fraction multiplyFF(Fraction x, Fraction y) {
+        return x.multiply(y);
+    }
+
+       
+}

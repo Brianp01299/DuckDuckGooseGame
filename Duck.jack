@@ -1,0 +1,87 @@
+/** Implements the big leadr duck.
+    The duck has x and y coordinates */
+
+class Duck {
+
+    field int x, y; // screen location of the top-left of big duck
+    field int vx, vy; // velocity of X and Y
+    field int size; // length of this duck, in pixels
+
+    /**Constructs and draws a new Duck with location and size */
+    constructor Duck new(int ax, int ay, int asize) {
+        let x  = ax;
+        let y = ay;
+        let size = asize;
+        let vx = 0;
+        let vy = 0 ;
+        do draw();
+        return this;
+    } 
+
+   /** Draws the duck in (x,y) location */
+    method void draw() {
+        var int memAddress;
+        var int location;
+       
+        let location = (y*32) + (x/16);
+
+        // Draw duck with black (using square for now)
+        let memAddress = 16384+ location;
+        do Memory.poke(memAddress+0, 1920);
+        do Memory.poke(memAddress+32, 2112);
+        do Memory.poke(memAddress+64, 14656);
+        do Memory.poke(memAddress+96, 18752);
+        do Memory.poke(memAddress+128, 14400);
+        do Memory.poke(memAddress+160, 1088);
+        do Memory.poke(memAddress+192, 1088);
+        do Memory.poke(memAddress+224, 1088);
+        do Memory.poke(memAddress+256, 2081);
+        do Memory.poke(memAddress+288, 4127);
+        do Memory.poke(memAddress+320, 4482);
+        do Memory.poke(memAddress+352, 4292);
+        do Memory.poke(memAddress+384, 2056);
+        do Memory.poke(memAddress+416, 2032);
+        do Memory.poke(memAddress+448, 288);
+        do Memory.poke(memAddress+480, 864);
+        return;
+}
+
+
+    method void erase() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x, y, x + size, y + size);
+        return;
+    }
+
+    /** Moves this duck up/down by direction pixels (if possible). */
+    method void moveDuck(int direction) {
+        
+
+        if ( direction = 1 & (~(vy = 1)) ) { let vx = 0; let vy = -1; } // up
+        if ( direction = 2 & (~(vy = -1)) ) { let vx = 0; let vy = 1; } // down
+        if ( direction = 3 & (~(vx = 1)) ) { let vx = -1; let vy = 0; } // left
+        if ( direction = 4 & (~(vx = -1)) ) { let vx = 1; let vy = 0; } // right
+        
+
+        let x = x + (vx * size);
+        let y = y + (vy * size);
+        do erase();
+        do draw();
+        return;
+    }
+
+    method int getx() {
+        return x;
+    }
+    
+    method int gety() {
+        return y;
+    }
+
+    /** Disposes the duck */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+}
